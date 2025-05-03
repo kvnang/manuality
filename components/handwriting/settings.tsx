@@ -14,9 +14,14 @@ import { CheckIcon, MinusIcon, PencilLineIcon, PlusIcon } from "lucide-react";
 import { useWorksheet } from "../worksheet/worksheet-provider";
 import { HandwritingData, Word } from "./handwriting.types";
 import { Toggle } from "../ui/toggle";
+import { Switch } from "../ui/switch";
+import { cn } from "@/lib/utils";
 
 export function HandwritingSettings() {
   const { data, setData, setSettingsOpen } = useWorksheet<HandwritingData>();
+  const [patternMode, setPatternMode] = React.useState<"default" | "advanced">(
+    "default",
+  );
   const [patterns, _setPatterns] = React.useState(data?.patterns || []);
 
   const setPatterns: typeof _setPatterns = (v) => {
@@ -42,7 +47,26 @@ export function HandwritingSettings() {
       >
         <div className="grid grid-cols-1 gap-4 p-4 overflow-auto">
           <div className="grid grid-cols-1 gap-2.5">
-            <Label htmlFor="patterns">Patterns</Label>
+            <div className="flex justify-between">
+              <Label htmlFor="patterns">Patterns</Label>
+              <div className="inline-flex items-center">
+                <Label
+                  className={cn(
+                    "font-normal mr-2 text-muted-foreground",
+                    patternMode === "advanced" ? "text-primary" : "",
+                  )}
+                >
+                  Advanced
+                </Label>
+                <Switch
+                  checked={patternMode === "advanced"}
+                  onCheckedChange={(v) =>
+                    setPatternMode(v ? "advanced" : "default")
+                  }
+                />
+              </div>
+            </div>
+
             {Array.from({ length: 6 }).map((_, index) => (
               <div
                 className="border rounded-md p-2 grid grid-cols-1 gap-1 bg-muted"
@@ -51,18 +75,41 @@ export function HandwritingSettings() {
                 <Label className="text-sm text-muted-foreground">
                   Row #{index + 1}
                 </Label>
-                <div className="border rounded-md p-2 bg-background">
-                  <Row
-                    row={patterns[index]}
-                    onRowChange={(row) => {
-                      setPatterns((prev) => {
-                        const updatedPatterns = [...prev];
-                        updatedPatterns[index] = row;
-                        return updatedPatterns;
-                      });
-                    }}
-                  />
-                </div>
+                {patternMode === "default" ? (
+                  <>
+                    <Input
+                      className="bg-background"
+                      value={patterns[index][0][0].text}
+                      onChange={(e) => {
+                        const letter = e.target.value;
+                        setPatterns((prev) => {
+                          const updatedPatterns = [...prev];
+                          updatedPatterns[index] = [
+                            [
+                              { text: letter },
+                              { text: letter, variant: "trace" },
+                              { text: letter, variant: "trace" },
+                            ],
+                          ];
+                          return updatedPatterns;
+                        });
+                      }}
+                    />
+                  </>
+                ) : (
+                  <div className="border rounded-md p-2 bg-background">
+                    <Row
+                      row={patterns[index]}
+                      onRowChange={(row) => {
+                        setPatterns((prev) => {
+                          const updatedPatterns = [...prev];
+                          updatedPatterns[index] = row;
+                          return updatedPatterns;
+                        });
+                      }}
+                    />
+                  </div>
+                )}
               </div>
             ))}
             {/* <p className="text-sm text-muted-foreground">
