@@ -50,7 +50,7 @@ function Guide({ columns }: { columns?: Array<Array<Word>> }) {
                 className={cn("flex-1 flex space-x-4")}
                 style={{
                   ...eduSaBeginner.style,
-                  lineHeight: `${SIZE * 0.75}px`,
+                  lineHeight: `${SIZE * 0.8}px`,
                   fontSize: `${SIZE}px`,
                 }}
               >
