@@ -2,8 +2,29 @@ import { Colouring } from "@/components/colouring";
 import { CutPaste } from "@/components/cut-paste";
 import { Handwriting } from "@/components/handwriting";
 import { WORKSHEET_DATA } from "@/lib/data";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import * as React from "react";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+
+  const data =
+    id in WORKSHEET_DATA
+      ? WORKSHEET_DATA[id as keyof typeof WORKSHEET_DATA]
+      : null;
+
+  if (!data) return {};
+
+  return {
+    title: data.title,
+    description: data.description,
+  };
+}
 
 export default async function Page({
   params,

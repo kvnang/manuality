@@ -9,7 +9,10 @@ import { Header } from "@/components/header";
 import { geistSans, geistMono, lexend, eduSaBeginner } from "@/styles/fonts";
 
 export const metadata: Metadata = {
-  title: "Manuality",
+  title: {
+    default: "Manuality",
+    template: "%s | Manuality",
+  },
   description:
     "Free customizable worksheets for your children’s early education, ranging from basic fine motor skills to handwriting practice.",
 };

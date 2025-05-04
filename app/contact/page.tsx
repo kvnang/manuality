@@ -1,4 +1,11 @@
+import { Metadata } from "next";
 import ContactForm from "./contact-form";
+
+export const metadata: Metadata = {
+  title: "Contact / Feedback",
+  description:
+    "Please send me your valuable feedback and suggestions to improve this application.",
+};
 
 export default function Page() {
   return (
