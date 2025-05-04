@@ -37,7 +37,7 @@ export default async function Image() {
             gap: 16,
             width: "100%",
             height: "100%",
-            zIndex: -1,
+            zIndex: "-1",
             padding: 6,
           }}
         >
@@ -90,7 +90,18 @@ export default async function Image() {
             />
           </svg>
         </div>
-        <div style={{ display: "flex", paddingBottom: 48 }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            width: "100%",
+            paddingBottom: 48,
+          }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="238"
